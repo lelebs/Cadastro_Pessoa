@@ -15,8 +15,10 @@ namespace Cadastro_Pessoa.Models
         public int Id { get; set; }
 
         [Display(Name = "Nome")]
-        [StringLength(50)]
         public string Nome { get; set; }
+
+        [Display(Name = "Apelido")]
+        public string Apelido { get; set; }
 
         [Display(Name = "Data de Cadastro")]
         public DateTime DataCadastro { get; set; }
@@ -27,7 +29,12 @@ namespace Cadastro_Pessoa.Models
         [Display(Name = "CPF ou CNPJ")]
         public string CpfCnpj { get; set; }
 
+        [Display(Name = "Tipo Pessoa")]
+        public char TipoPessoa { get; set; }
+
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
+
+        public bool Ativo { get; set; }
     }
 }
