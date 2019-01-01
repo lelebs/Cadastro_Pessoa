@@ -1,0 +1,59 @@
+﻿@using Cadastro_Pessoa.ViewModel;
+@using Cadastro_Pessoa.Controllers;
+@model Cadastro_Pessoa.ViewModel.PessoaViewModel
+
+@{
+    ViewBag.Title = "Cadastro de Pessoa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> CampoPesquisa = new List<SelectListItem>();
+
+    CampoPesquisa.Add(new SelectListItem
+    {
+        Text = "Código",
+        Selected = true
+    });
+
+    CampoPesquisa.Add(new SelectListItem
+    {
+        Text = "Nome(Ativo)"
+    });
+    CampoPesquisa.Add(new SelectListItem
+    {
+        Text = "Nome(Todos)"
+    });
+}
+
+<div class="pagina-div">
+    <h2 class="title">Cadastro de Pessoas</h2>
+
+    <div class="row-div" style="padding-left: 15px">
+        @Html.DropDownListFor(model => model.CampoPesquisa, CampoPesquisa, new { @class = "form-control", @style = "width = 32px", @id = "dropdown" });
+        <input type="text" id="pesquisa" class="title form-control" />
+        <button class="btn" id="btn-pesquisar">Pesquisar</button>
+    </div>
+    <table class="table table-bordered table-hover">
+        <colgroup>
+            <col style="width: 90px">
+            <col style="width: 90px">
+            <col style="width: 90px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Ativo</th>
+                <th>Código</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.getElementById("btn-pesquisar").addEventListener("click", function () {
+            //CampoPesquisaValor = document.getElementById("dropdown");
+            //PessoaController.ListarTodas()
+        })
+    </script>
+}

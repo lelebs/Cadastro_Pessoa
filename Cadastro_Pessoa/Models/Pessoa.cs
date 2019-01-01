@@ -9,12 +9,11 @@ namespace Cadastro_Pessoa.Models
 {
     public class Pessoa
     {
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-
         [Display(Name = "Código")]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
+        [StringLength(50, ErrorMessage ="O campo nome não pode ser maior que 50 carácteres")]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
 
@@ -25,22 +24,15 @@ namespace Cadastro_Pessoa.Models
         public DateTime DataCadastro { get; set; }
 
         [Display(Name = "Data de Alteração")]
-        public DateTime DataAlterecao { get; set; }
+        public DateTime DataAlteracao { get; set; }
 
+        [Required(ErrorMessage = "O campo não pode ser vazio")]
         [Display(Name = "CPF ou CNPJ")]
         public string CpfCnpj { get; set; }
 
         [Display(Name = "Tipo Pessoa")]
         public string TipoPessoa { get; set; }
 
-        [Display(Name = "Data de Nascimento")]
-        public DateTime DataNascimento { get; set; }
-
         public bool Ativo { get; set; }
-
-        public static void InserirPessoa(Pessoa pessoa)
-        {
-            PessoaController.InserirPessoa(pessoa);
-        }
     }
 }

@@ -11,7 +11,7 @@ namespace Cadastro_Pessoa.Controllers
     {
         public static NpgsqlConnection CreateConnection()
         {
-            string connectionString = "Server=localhost; User Id=postgres; Database=CadsatroPessoa; Port=5432; Password=admin";
+            string connectionString = "Server=localhost; User Id=postgres; Database=CadastroPessoa; Port=5432; Password=admin";
 
             NpgsqlConnection conn = new NpgsqlConnection(connectionString);
 

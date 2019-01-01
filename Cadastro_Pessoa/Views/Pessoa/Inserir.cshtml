@@ -1,9 +1,10 @@
 ﻿@using Cadastro_Pessoa.Models
+@using Cadastro_Pessoa.Controllers
 @model Cadastro_Pessoa.Models.Pessoa
 
 @{
     ViewBag.Title = "Home Page";
-    Html.RenderPartial("_SaveBar");
+
 
     List<SelectListItem> tipoPessoa = new List<SelectListItem>();
 
@@ -19,128 +20,104 @@
     });
 }
 
-@{
-    void InserirPessoa(Pessoa pessoa)
-    {
-        Pessoa.InserirPessoa(pessoa);
-    }
+@using (Html.BeginForm("Index", "Pessoa", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    Html.RenderPartial("_SaveBar");
+
+
+    <div class="tab-div">
+        <div class="row-div">
+            <div class="content-div" style="width: 130px">
+                @Html.LabelFor(model => model.Id)
+                @Html.TextBoxFor(model => model.Id, new { disabled = "disabled", @class = "form-control", @style = "width: 100px" })
+            </div>
+            <div class="content-div" style="width: 152px">
+                @Html.CheckBoxFor(model => model.Ativo, new { @class = "form-check-input", @id = "Ativo" })
+                @Html.LabelFor(model => model.Ativo, new { @style = "display: inline" })
+            </div>
+
+            <div style="float:right; display: inline-block;">
+                <div class="content-div" style="width: 150px">
+                    @Html.LabelFor(model => model.TipoPessoa)
+                    @Html.DropDownListFor(model => model.TipoPessoa, tipoPessoa, new { @class = "form-control", @style = "width = 32px", @id = "TipoPessoa", @onmouseout ="SetarMask()" })
+                </div>
+
+                <div class="content-div" style="width: 150px">
+                    @Html.LabelFor(model => model.DataCadastro)
+                    @Html.TextBoxFor(model => model.DataCadastro, new { @class = "form-control date", @type = "date" })
+                </div>
+                <div class="content-div" style="width: 200px">
+                    @Html.LabelFor(model => model.DataAlteracao, new { disabled = "disabled" })
+                    @Html.TextBoxFor(model => model.DataAlteracao, new { @class = "form-control", @type = "datetime-local" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row-div">
+            <div class="content-div" style="display:block">
+                @Html.LabelFor(model => model.Nome)
+                @Html.TextBoxFor(model => model.Nome, new { @class = "form-control", @maxlength = "50", @style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.Nome, null, new { @style = "color: red" })
+            </div>
+        </div>
+
+        <div class="row-div">
+            <div class="content-div" style="width: 81%">
+                @Html.LabelFor(model => model.Apelido)
+                @Html.TextBoxFor(model => model.Apelido, new { @class = "form-control", @maxlength = "50", @style = "width:100%" })
+            </div>
+
+            <div class="content-div">
+                @Html.LabelFor(model => model.CpfCnpj)
+                @Html.TextBoxFor(model => model.CpfCnpj, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CpfCnpj, null, new { @style = "color: red" })
+            </div>
+        </div>
+    </div>
 }
-<div class="tab-div">
-    <div class="row-div">
-        <div class="content-div" style="width: 130px">
-            @Html.LabelFor(m => Model.Id)
-            @Html.TextBoxFor(model => model.Id, new { disabled = "disabled", @class = "form-control", @style = "width: 100px" })
-        </div>
-        <div class="content-div" style="width: 152px">
-            @Html.CheckBoxFor(model => model.Ativo, new { @class = "form-check-input" })
-            @Html.LabelFor(m => Model.Ativo, new { @style = "display: inline" })
-        </div>
-
-        <div style="float:right; display: inline-block;">
-            <div class="content-div" style="width: 150px">
-                @Html.LabelFor(m => Model.TipoPessoa)
-                @Html.DropDownListFor(model => model.TipoPessoa, tipoPessoa, new { @class = "form-control", @style = "width = 32px" })
-            </div>
-
-            <div class="content-div" style="width: 150px">
-                @Html.LabelFor(m => Model.DataCadastro)
-                @Html.TextBoxFor(model => model.DataCadastro, new { disabled = "disabled", @class = "form-control date", @type = "date" })
-            </div>
-            <div class="content-div" style="width: 200px">
-                @Html.LabelFor(m => Model.DataAlterecao, new { disabled = "disabled" })
-                @Html.TextBoxFor(model => model.DataAlterecao, new { disabled = "disabled", @class = "form-control", @type = "datetime-local" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row-div">
-        <div class="content-div" style="display:block">
-            @Html.LabelFor(m => Model.Nome)
-            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control", @maxlength = "50", @style = "width:100%" })
-        </div>
-    </div>
-
-    <div class="row-div">
-        <div class="content-div" style="width: 81%">
-            @Html.LabelFor(m => Model.Apelido)
-            @Html.TextBoxFor(model => model.Apelido, new { @class = "form-control", @maxlength = "50", @style = "width:100%" })
-        </div>
-
-        <div class="content-div">
-            @Html.LabelFor(m => Model.CpfCnpj)
-            @Html.TextBoxFor(model => Model.CpfCnpj, new { @class = "form-control" })
-        </div>
-    </div>
-</div>
-
-
-<script type="text/javascript">
-    document.getElementById("Ativo").checked = true;
-    document.getElementById("DataCadastro").valueAsDate = new Date();
-    document.getElementById("DataAlteracao").valueAsDateTime = 
-</script>
 
 @section Scripts {
-<script>
-    document.getElementById("save-button").addEventListener("click", function ()
-    {
-        @{
-            Pessoa pessoa = new Pessoa();
-            var Nome = "";
-            var CpfCnpj = "";
-            var DataCadastro = "";
-            var DataAlteracao = "";
 
-            var TipoPessoa = "";
-            var Ativo = "";
-        }
+    @Scripts.Render("~/bundles/jqueryval")
 
-        @Nome = document.getElementById("#Nome").value;
-        @CpfCnpj = document.getElementById("CpfCnpj").value;
-        @DataCadastro = document.getElementById("DataCadastro").value;
-        @DataAlteracao = document.getElementById("DataAlteracao").value;
-
-        @CpfCnpj = @CpfCnpj.Replace(".", "");
-        @CpfCnpj = @CpfCnpj.Replace("-", "");
-        @CpfCnpj = @CpfCnpj.Replace("/", "");
-
-        if (document.getElementById("TipoPessoa").value == "Física")
-            @TipoPessoa = "f";
-        else
-            @TipoPessoa = "j";
-
-        if (document.getElementById("Ativo").checked == true)
-            @Ativo = true;
-        else
-            @Ativo = false;
-
-    });
-
+    <script>
         var tipoPessoa = document.getElementById("TipoPessoa");
 
-        $(document).ready(SetarMask());
+        $(document).ready(function ()
+        {
+            var data = new Date();
+            var ano = data.getFullYear();
+            var mes = data.getMonth() + 1;
+            var dia = data.getDate();
+            var hora = data.getHours();
+            var min = data.getMinutes();
+
+            if (mes.length = 1) mes = '0' + mes;
+            if (dia.length = 1) dia = '0' + dia;
+
+            data = ano + "-" + mes + "-" + dia + "T" + hora + ":" + min;
+
+            document.getElementById("DataCadastro").valueAsDate = new Date();
+            document.getElementById("DataAlteracao").value = data;
+
+            SetarMask();
+        });
 
         document.getElementById("Ativo").checked = true;
-        $("DataCadastro".val(@DateTime.Now.ToString("dd/MM/yyyy"));
-        $("#DataAlteracao").val(@DateTime.Now.ToString("dd/MM/yyyyThh:mm"));
 
-
-        $("#TipoPessoa").change(SetarMask());
-
-        function SetarMask()
-        {
+        function SetarMask() {
             var fisica = "999.999.999-99";
             var juridica = "99.999.999/9999-99";
 
-            if (tipoPessoa.textContent === "Física")
-            {
-                $("#CpfCnpj").inputmask(juridica);
-            }
-
-            else
-            {
+            if (tipoPessoa.value === "Física") {
                 $("#CpfCnpj").inputmask(fisica);
             }
+
+            else {
+                $("#CpfCnpj").inputmask(juridica);
+            }
         }
-</script>
+    </script>
 }
