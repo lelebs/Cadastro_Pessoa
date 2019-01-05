@@ -148,15 +148,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ConnectionFactory.cs" />
     <Compile Include="Controllers\PessoaController.cs" />
     <Compile Include="Exception\BdException.cs" />
-    <Compile Include="Models\PessoaContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Pessoa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\PessoaViewModel.cs" />
   </ItemGroup>
@@ -221,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -230,6 +228,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cadastro_Pessoa.Aplicacao\Cadastro_Pessoa.Aplicacao.csproj">
+      <Project>{6c0437cc-09c7-4593-b5b3-51c50379a8e9}</Project>
+      <Name>Cadastro_Pessoa.Aplicacao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cadastro_Pessoa.Dominio\Cadastro_Pessoa.Dominio.csproj">
+      <Project>{e645e693-3ac0-42de-932f-da3ae46a29be}</Project>
+      <Name>Cadastro_Pessoa.Dominio</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

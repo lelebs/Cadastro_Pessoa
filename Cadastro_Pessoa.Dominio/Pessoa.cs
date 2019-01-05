@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
-using Cadastro_Pessoa.Controllers;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Cadastro_Pessoa.Models
+namespace Cadastro_Pessoa.Dominio
 {
     public class Pessoa
     {
@@ -13,7 +13,7 @@ namespace Cadastro_Pessoa.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
-        [StringLength(50, ErrorMessage ="O campo nome não pode ser maior que 50 carácteres")]
+        [StringLength(50, ErrorMessage = "O campo nome não pode ser maior que 50 carácteres")]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
 

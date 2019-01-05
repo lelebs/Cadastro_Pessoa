@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cadastro_Pessoa.Models;
 using Npgsql;
 using Cadastro_Pessoa.ViewModel;
 using System.Collections;
 using Newtonsoft.Json;
+using Cadastro_Pessoa.Dominio;
+using Cadastro_Pessoa.Aplicacao;
 
 namespace Cadastro_Pessoa.Controllers
 {
@@ -29,91 +30,36 @@ namespace Cadastro_Pessoa.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(Pessoa pessoa)
+        public ActionResult Inserir(Pessoa pessoa)
         {
             if (ModelState.IsValid)
             {
-                using (NpgsqlConnection con = ConnectionFactory.CreateConnection())
-                {
-                    try
-                    {
-                        pessoa.CpfCnpj = pessoa.CpfCnpj.Replace(".", "");
-                        pessoa.CpfCnpj = pessoa.CpfCnpj.Replace("-", "");
-                        pessoa.CpfCnpj = pessoa.CpfCnpj.Replace("/", "");
-
-                        string sql = "INSERT INTO Pessoa(nome, apelido, cpfcnpj, tipopessoa, datacadastro," +
-                                     " dataalteracao, ativo) values(@nome, @apelido, @cpfCnpj, @tipoPessoa, @dataCadastro," +
-                                     " @dataAlteracao, @ativo)";
-
-                        NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
-
-                        var dataCadastro = NpgsqlTypes.NpgsqlDate.ToNpgsqlDate(pessoa.DataCadastro);
-                        var dataAlteracao = NpgsqlTypes.NpgsqlDateTime.ToNpgsqlDateTime(pessoa.DataAlteracao);
-
-                        cmd.Parameters.Add(new NpgsqlParameter("@nome", pessoa.Nome));
-                        cmd.Parameters.Add(new NpgsqlParameter("@apelido", pessoa.Apelido));
-                        cmd.Parameters.Add(new NpgsqlParameter("@cpfCnpj", pessoa.CpfCnpj));
-                        cmd.Parameters.Add(new NpgsqlParameter("@tipoPessoa", pessoa.TipoPessoa));
-                        cmd.Parameters.Add(new NpgsqlParameter("@dataCadastro", dataCadastro));
-                        cmd.Parameters.Add(new NpgsqlParameter("@dataAlteracao", dataAlteracao));
-                        cmd.Parameters.Add(new NpgsqlParameter("@ativo", pessoa.Ativo));
-
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    catch (NpgsqlException ex)
-                    {
-                        ex.Message.ToString();
-                    }
-
-                    finally
-                    {
-                        con.Close();
-                    }
-                }
+                var appPessoa = new PessoaAplicacao();
+                appPessoa.InserirPessoa(pessoa);
+                return Index();
             }
 
-            return Index();
+            return Inserir(pessoa);
         }
 
         [HttpPost]
-        public void AlterarPessoa(Pessoa pessoa)
+        public ActionResult AlterarPessoa(Pessoa pessoa)
         {
-            using (NpgsqlConnection con = ConnectionFactory.CreateConnection())
+            if(ModelState.IsValid)
             {
-                try
-                {
-                    string sql = "UPDATE Pessoa SET nome = @nome, cpfcnpj = @cpfCnpj, tipopessoa = @tipoPessoa," +
-                                 "dataalteracao = @dataAlteracao, ativo = @ativo WHERE ID=@id";
-
-                    NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
-
-                    cmd.Parameters.Add(new NpgsqlParameter("@id", pessoa.Id));
-                    cmd.Parameters.Add(new NpgsqlParameter("@nome", pessoa.Nome));
-                    cmd.Parameters.Add(new NpgsqlParameter("@cpfCnpj", pessoa.CpfCnpj));
-                    cmd.Parameters.Add(new NpgsqlParameter("@tipoPessoa", pessoa.TipoPessoa));
-                    cmd.Parameters.Add(new NpgsqlParameter("@dataAlteracao", pessoa.DataAlteracao));
-                    cmd.Parameters.Add(new NpgsqlParameter("@ativo", pessoa.Ativo));
-
-                    cmd.ExecuteNonQuery();
-                }
-
-                catch (NpgsqlException ex)
-                {
-                    ex.Message.ToString();
-                }
-
-                finally
-                {
-                    con.Close();
-                }
+                var appPessoa = new PessoaAplicacao();
+                appPessoa.AlterarPessoa(pessoa);
+                return Index();
             }
+
+            return AlterarPessoa(pessoa);
         }
 
+        /*
         public static string ListarTodas(string CampoPesquisa, string TextoPesquisa)
         {
             var json = "";
-            using (NpgsqlConnection con = ConnectionFactory.CreateConnection())
+            using (Contexto = new Context())
             {
                 try
                 {
@@ -145,7 +91,7 @@ namespace Cadastro_Pessoa.Controllers
 
                     NpgsqlDataReader dtr = cmd.ExecuteReader();
 
-                    while(dtr.HasRows)
+                    while (dtr.HasRows)
                     {
                         Pessoa p = new Pessoa();
                         p.Id = dtr.GetInt32(0);
@@ -153,7 +99,7 @@ namespace Cadastro_Pessoa.Controllers
                         p.Apelido = dtr.GetString(2);
                         p.CpfCnpj = dtr.GetString(3);
                         p.TipoPessoa = dtr.GetString(4);
-                        p.DataCadastro = (DateTime) dtr.GetDate(5);
+                        p.DataCadastro = (DateTime)dtr.GetDate(5);
                         p.DataAlteracao = dtr.GetDateTime(6);
                         p.Ativo = dtr.GetBoolean(7);
 
@@ -175,6 +121,6 @@ namespace Cadastro_Pessoa.Controllers
 
                 return json;
             }
-        }
+        }*/
     }
 }
