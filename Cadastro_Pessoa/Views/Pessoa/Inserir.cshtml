@@ -46,11 +46,11 @@
 
                 <div class="content-div" style="width: 150px">
                     @Html.LabelFor(model => model.DataCadastro)
-                    @Html.TextBoxFor(model => model.DataCadastro, new { @class = "form-control date", @type = "date" })
+                    @Html.TextBoxFor(model => model.DataCadastro, new { @class = "form-control date", @type = "date", disabled = "disabled" })
                 </div>
                 <div class="content-div" style="width: 200px">
                     @Html.LabelFor(model => model.DataAlteracao, new { disabled = "disabled" })
-                    @Html.TextBoxFor(model => model.DataAlteracao, new { @class = "form-control", @type = "datetime-local" })
+                    @Html.TextBoxFor(model => model.DataAlteracao, new { @class = "form-control", @type = "datetime-local", disabled = "disabled" })
                 </div>
             </div>
         </div>

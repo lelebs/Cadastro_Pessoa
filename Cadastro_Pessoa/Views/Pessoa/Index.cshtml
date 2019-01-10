@@ -1,38 +1,43 @@
 ﻿@using Cadastro_Pessoa.ViewModel;
-@using Cadastro_Pessoa.Controllers;
-@using Newtonsoft.Json;
-@model Cadastro_Pessoa.ViewModel.PessoaViewModel
+@using Cadastro_Pessoa.Dominio;
+@model IEnumerable<Pessoa>
 
 @{
     ViewBag.Title = "Cadastro de Pessoa";
     Layout = "~/Views/Shared/_Layout.cshtml";
-        
+
     List<SelectListItem> TipoPesquisa = new List<SelectListItem>();
 
     TipoPesquisa.Add(new SelectListItem
     {
-        Text = "Código",
-        Selected = true
+        Text = "Código"
     });
 
     TipoPesquisa.Add(new SelectListItem
     {
-        Text = "Nome(Ativo)"
+        Text = "Nome(Ativos)"
     });
     TipoPesquisa.Add(new SelectListItem
     {
         Text = "Nome(Todos)"
     });
+
+    IEnumerable<SelectListItem> ITipoPesquisa = TipoPesquisa;
+
 }
 
 <div class="pagina-div">
     <h2 class="title">Cadastro de Pessoas</h2>
 
-    <div class="row-div" style="padding-left: 15px">
-        @Html.DropDownListFor(model => model.TipoPesquisa, TipoPesquisa, new { @class = "form-control", @style = "width = 32px"})
-        @Html.TextBoxFor(model => model.CampoPesquisa, new { @class = "form-control", @style = "width = 32px" })
-        <button class="btn" id="btn-pesquisar">Pesquisar</button>
-    </div>
+    @using (Html.BeginForm("Index", "Pessoa", FormMethod.Post))
+    {
+        <div class="row-div" style="padding-left: 15px">
+            @Html.DropDownList("TipoPesquisa", ITipoPesquisa, new { @class = "form-control", @style = "width = 32px" })
+            @Html.TextBox("TextoPesquisa", null , new { @class = "form-control", @style = "width = 32px" })
+            <button class="btn" id="btn-pesquisar" type="submit">Pesquisar</button>
+        </div>
+    }
+
     <table class="table table-bordered table-hover" id="table">
         <colgroup>
             <col style="width: 90px">
@@ -46,7 +51,25 @@
                 <th>Nome</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (Pessoa pessoa in Model)
+                {
+                    <tr>
+                        <th>
+                            @Html.CheckBoxFor(p => pessoa.Ativo, new { @class = "form-check-input", disabled = "disabled" })
+                        </th>
+                        <th>
+                            @pessoa.Id
+                        </th>
+                        <th>
+                            @pessoa.Nome
+                        </th>
+                    </tr>
+                }
+            }
+        </tbody>
     </table>
 </div>
 

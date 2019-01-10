@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Npgsql;
-using Cadastro_Pessoa.ViewModel;
-using System.Collections;
-using Newtonsoft.Json;
+﻿using Cadastro_Pessoa.Aplicacao;
 using Cadastro_Pessoa.Dominio;
-using Cadastro_Pessoa.Aplicacao;
+using Cadastro_Pessoa.ViewModel;
+using System.Web.Mvc;
 
 namespace Cadastro_Pessoa.Controllers
 {
@@ -17,8 +10,7 @@ namespace Cadastro_Pessoa.Controllers
         [Route("Pessoa/Index")]
         public ActionResult Index()
         {
-            PessoaViewModel viewModel = new PessoaViewModel();
-            return View(viewModel);
+            return View();
         }
 
         // GET: Pessoa
@@ -55,72 +47,13 @@ namespace Cadastro_Pessoa.Controllers
             return AlterarPessoa(pessoa);
         }
 
-        /*
-        public static string ListarTodas(string CampoPesquisa, string TextoPesquisa)
+        [HttpPost]
+        public ActionResult Index(string textoPesquisa)
         {
-            var json = "";
-            using (Contexto = new Context())
-            {
-                try
-                {
-                    string sql = "SELECT id, Nome, Apelido, CpfCnpj, TipoPessoa, DataCadastro, DataAlteracao, Ativo FROM pessoa";
-
-                    NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
-
-                    switch (CampoPesquisa)
-                    {
-                        case "Código":
-                            sql += "WHERE codigo = @texto";
-                            int codigo;
-                            Int32.TryParse(TextoPesquisa, out codigo);
-                            cmd.Parameters.Add(new NpgsqlParameter("@texto", codigo));
-                            break;
-                        case "Nome(Ativos)":
-                            sql += "WHERE nome = @texto AND ATIVO = true";
-                            cmd.Parameters.Add(new NpgsqlParameter("@texto", TextoPesquisa));
-                            break;
-                        case "Nome(Todos)":
-                            sql += "WHERE nome = @texto";
-                            cmd.Parameters.Add(new NpgsqlParameter("@texto", TextoPesquisa));
-                            break;
-                    }
-
-                    cmd.Parameters.Add(new NpgsqlParameter("@texto", TextoPesquisa));
-
-                    List<Pessoa> lista = new List<Pessoa>();
-
-                    NpgsqlDataReader dtr = cmd.ExecuteReader();
-
-                    while (dtr.HasRows)
-                    {
-                        Pessoa p = new Pessoa();
-                        p.Id = dtr.GetInt32(0);
-                        p.Nome = dtr.GetString(1);
-                        p.Apelido = dtr.GetString(2);
-                        p.CpfCnpj = dtr.GetString(3);
-                        p.TipoPessoa = dtr.GetString(4);
-                        p.DataCadastro = (DateTime)dtr.GetDate(5);
-                        p.DataAlteracao = dtr.GetDateTime(6);
-                        p.Ativo = dtr.GetBoolean(7);
-
-                        lista.Add(p);
-                    }
-
-                    json = JsonConvert.SerializeObject(lista);
-                }
-
-                catch (NpgsqlException ex)
-                {
-                    ex.Message.ToString();
-                }
-
-                finally
-                {
-                    con.Close();
-                }
-
-                return json;
-            }
-        }*/
+            string campoPesquisa = Request.Form["TipoPesquisa"].ToString();
+            var appPessoa = new PessoaAplicacao();
+            var lista = appPessoa.ListarTodos(campoPesquisa, textoPesquisa);
+            return View(lista);
+        }
     }
 }

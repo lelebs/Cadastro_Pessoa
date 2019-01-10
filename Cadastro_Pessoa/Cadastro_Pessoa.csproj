@@ -238,6 +238,10 @@
       <Project>{e645e693-3ac0-42de-932f-da3ae46a29be}</Project>
       <Name>Cadastro_Pessoa.Dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cadastro_Pessoa.Repositorio\Cadastro_Pessoa.Repositorio.csproj">
+      <Project>{9D1EB6BA-875E-49D2-8415-935482ADA43A}</Project>
+      <Name>Cadastro_Pessoa.Repositorio</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

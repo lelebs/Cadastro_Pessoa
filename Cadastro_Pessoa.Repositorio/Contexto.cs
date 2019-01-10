@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Npgsql;
 
 namespace Cadastro_Pessoa.Repositorio
@@ -23,6 +19,11 @@ namespace Cadastro_Pessoa.Repositorio
         {
             if (minhaConexao.State == ConnectionState.Open)
                 minhaConexao.Close();
+        }
+
+        public NpgsqlConnection Conexao()
+        {
+            return minhaConexao;
         }
 
         public void ExecutarComando(string cmd)
