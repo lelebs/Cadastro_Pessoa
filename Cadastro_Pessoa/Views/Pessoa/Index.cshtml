@@ -29,69 +29,33 @@
 <div class="pagina-div">
     <h2 class="title">Cadastro de Pessoas</h2>
 
-    @using (Html.BeginForm("Index", "Pessoa", FormMethod.Post))
-    {
-        <div class="row-div" style="padding-left: 15px">
+    <div class="row-div" style="padding-left: 15px">
+        @using (Ajax.BeginForm("Index", "Pessoa", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "tabela" }))
+        {
             @Html.DropDownList("TipoPesquisa", ITipoPesquisa, new { @class = "form-control", @style = "width = 32px" })
-            @Html.TextBox("TextoPesquisa", null , new { @class = "form-control", @style = "width = 32px" })
-            <button class="btn" id="btn-pesquisar" type="submit">Pesquisar</button>
-        </div>
-    }
-
-    <table class="table table-bordered table-hover" id="table">
-        <colgroup>
-            <col style="width: 90px">
-            <col style="width: 90px">
-            <col style="width: 90px">
-        </colgroup>
-        <thead>
-            <tr>
-                <th>Ativo</th>
-                <th>Código</th>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                foreach (Pessoa pessoa in Model)
-                {
+            @Html.TextBox("TextoPesquisa", null, new { @class = "form-control", @style = "width = 32px" })
+            <button class="btn" id="btn-pesquisar" , type="submit">Pesquisar</button>
+        }
+        <div id="tabela">
+            <table class="table table-bordered table-hover" id="table">
+                <colgroup>
+                    <col style="width: 90px">
+                    <col style="width: 90px">
+                    <col style="width: 90px">
+                </colgroup>
+                <thead>
                     <tr>
-                        <th>
-                            @Html.CheckBoxFor(p => pessoa.Ativo, new { @class = "form-check-input", disabled = "disabled" })
-                        </th>
-                        <th>
-                            @pessoa.Id
-                        </th>
-                        <th>
-                            @pessoa.Nome
-                        </th>
+                        <th>Ativo</th>
+                        <th>Código</th>
+                        <th>Nome</th>
                     </tr>
-                }
-            }
-        </tbody>
-    </table>
+                </thead>
+                @Html.Partial("_Pessoas", Model)
+            </table>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-<script type="text/javascript">
-    $('#btn-pesquisar').click(function () {
-        debugger;
-        var CampoPesquisa = document.getElementById("CampoPesquisa").value;
-        var TipoPesquisa = document.getElementById("TipoPesquisa").value;
-
-        $.ajax({
-            type: "GET",
-            url: "/Pessoa/ListarTodos",
-            contentType: "application/json; charset=utf-8",
-            data: CampoPesquisa, TipoPesquisa,
-            dataType: "json",
-            success: function (result) {
-                $.each(result, function ()
-                {
-                    //$("#table tbody").append("<tr> <tr>"+ result.id "</tr> <tr>"")
-                })
-            },
-        });
-</script>
+    @Scripts.Render("~/bundles/jqueryval")      
 }

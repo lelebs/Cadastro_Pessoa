@@ -1,0 +1,24 @@
+﻿@using Cadastro_Pessoa.Dominio
+@model IEnumerable<Cadastro_Pessoa.Dominio.Pessoa>
+
+
+
+@if (Model != null)
+{
+    foreach (Pessoa pessoa in Model)
+    {
+        <tbody>
+            <tr>
+                <th>
+                    @Html.CheckBoxFor(p => pessoa.Ativo, new { @class = "form-check-input", disabled = "disabled" })
+                </th>
+                <th>
+                    @pessoa.Id
+                </th>
+                <th>
+                    @pessoa.Nome
+                </th>
+            </tr>
+        </tbody>
+    }
+}

@@ -1,6 +1,5 @@
 ﻿using Cadastro_Pessoa.Aplicacao;
 using Cadastro_Pessoa.Dominio;
-using Cadastro_Pessoa.ViewModel;
 using System.Web.Mvc;
 
 namespace Cadastro_Pessoa.Controllers
@@ -8,8 +7,17 @@ namespace Cadastro_Pessoa.Controllers
     public class PessoaController : Controller
     {
         [Route("Pessoa/Index")]
-        public ActionResult Index()
+        public ActionResult Index(string textoPesquisa)
         {
+            if(textoPesquisa != null)
+            {
+                var campoPesquisa = Request.Form["TipoPesquisa"].ToString();
+                var appPessoa = new PessoaAplicacao();
+                var lista = appPessoa.ListarTodos(campoPesquisa, textoPesquisa);
+
+                return PartialView("_Pessoas", lista);
+            }
+
             return View();
         }
 
@@ -28,7 +36,7 @@ namespace Cadastro_Pessoa.Controllers
             {
                 var appPessoa = new PessoaAplicacao();
                 appPessoa.InserirPessoa(pessoa);
-                return Index();
+                return Index(null);
             }
 
             return Inserir(pessoa);
@@ -41,19 +49,10 @@ namespace Cadastro_Pessoa.Controllers
             {
                 var appPessoa = new PessoaAplicacao();
                 appPessoa.AlterarPessoa(pessoa);
-                return Index();
+                return Index(null);
             }
 
             return AlterarPessoa(pessoa);
-        }
-
-        [HttpPost]
-        public ActionResult Index(string textoPesquisa)
-        {
-            string campoPesquisa = Request.Form["TipoPesquisa"].ToString();
-            var appPessoa = new PessoaAplicacao();
-            var lista = appPessoa.ListarTodos(campoPesquisa, textoPesquisa);
-            return View(lista);
         }
     }
 }

@@ -8350,7 +8350,7 @@ if ( !support.focusin ) {
 		// Attach a single capturing handler on the document while someone wants focusin/focusout
 		var handler = function( event ) {
 			jQuery.event.simulate( fix, event.target, jQuery.event.fix( event ) );
-		};
+		    };
 
 		jQuery.event.special[ fix ] = {
 			setup: function() {
