@@ -23,6 +23,7 @@ namespace Cadastro_Pessoa.Dominio
         public DateTime DataAlteracao { get; set; }
 
         [Required(ErrorMessage = "O campo não pode ser vazio")]
+        [DataType(DataType.Text, ErrorMessage ="Campo deve possuir apenas texto"), ]
         [Display(Name = "CPF ou CNPJ")]
         public string CpfCnpj { get; set; }
 

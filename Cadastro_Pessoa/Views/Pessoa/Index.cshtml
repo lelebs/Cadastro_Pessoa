@@ -34,8 +34,11 @@
         {
             @Html.DropDownList("TipoPesquisa", ITipoPesquisa, new { @class = "form-control", @style = "width = 32px" })
             @Html.TextBox("TextoPesquisa", null, new { @class = "form-control", @style = "width = 32px" })
-            <button class="btn" id="btn-pesquisar" , type="submit">Pesquisar</button>
+            <button class="btn" id="btn-pesquisar" type="submit">Pesquisar</button>
         }
+        <p></p>
+        <button class="btn" id="btn-pesquisar" type="submit">@Html.ActionLink("Inserir", "Inserir", "Pessoa")</button>
+        <p></p>
         <div id="tabela">
             <table class="table table-bordered table-hover" id="table">
                 <colgroup>

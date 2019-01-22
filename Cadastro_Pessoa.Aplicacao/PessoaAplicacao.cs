@@ -90,7 +90,7 @@ namespace Cadastro_Pessoa.Aplicacao
             {
                 try
                 {
-                    string sql = "SELECT id, Nome, Apelido, CpfCnpj, TipoPessoa, DataCadastro, DataAlteracao, Ativo FROM pessoa ";
+                    string sql = "SELECT id, Nome, CpfCnpj, Ativo FROM pessoa ";
 
                     NpgsqlCommand cmd = new NpgsqlCommand();
 
@@ -122,12 +122,8 @@ namespace Cadastro_Pessoa.Aplicacao
                         Pessoa p = new Pessoa();
                         p.Id = dtr.GetInt16(0);
                         p.Nome = dtr.GetString(1);
-                        p.Apelido = dtr.GetString(2);
-                        p.CpfCnpj = dtr.GetString(3);
-                        p.TipoPessoa = dtr.GetString(4);
-                        p.DataCadastro = (DateTime)dtr.GetDate(5);
-                        p.DataAlteracao = dtr.GetDateTime(6);
-                        p.Ativo = dtr.GetBoolean(7);
+                        p.CpfCnpj = dtr.GetString(2);
+                        p.Ativo = dtr.GetBoolean(3);
 
                         lista.Add(p);
                     }
@@ -141,6 +137,29 @@ namespace Cadastro_Pessoa.Aplicacao
                 IEnumerable<Pessoa> pessoas = lista;
 
                 return pessoas;
+            }
+        }
+
+        public string ListarUltimoInserido()
+        {
+            using (contexto = new Contexto())
+            {
+                try
+                {
+                    string sql = "SELECT id FROM pessoa order by id desc limit 1";
+
+                    NpgsqlCommand cmd = new NpgsqlCommand(sql, contexto.Conexao());
+                    NpgsqlDataReader dtr;
+
+                    dtr = cmd.ExecuteReader();
+                    return dtr.GetString(0);
+                }
+
+                catch(Exception ex)
+                {
+                    ex.Message.ToString();
+                    return "";
+                }
             }
         }
     }

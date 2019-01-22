@@ -25,23 +25,5 @@ namespace Cadastro_Pessoa.Repositorio
         {
             return minhaConexao;
         }
-
-        public void ExecutarComando(string cmd)
-        {
-            var comando = new NpgsqlCommand
-            {
-                CommandText = cmd,
-                CommandType = CommandType.Text,
-                Connection = minhaConexao
-            };
-
-            comando.ExecuteNonQuery();
-        }
-
-        public NpgsqlDataReader LeituraComando(string cmd)
-        {
-            var comando = new NpgsqlCommand(cmd, minhaConexao);
-            return comando.ExecuteReader();
-        }
     }
 }

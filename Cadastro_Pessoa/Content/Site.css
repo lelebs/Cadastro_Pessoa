@@ -109,3 +109,10 @@ a {
     display: block;
     width: 150px;
 }
+
+.btn-salvar
+{
+    vertical-align: central;
+    width: 80px;
+    height: 41.5px;
+}

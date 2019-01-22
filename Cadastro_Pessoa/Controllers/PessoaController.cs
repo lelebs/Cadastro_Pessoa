@@ -6,7 +6,7 @@ namespace Cadastro_Pessoa.Controllers
 {
     public class PessoaController : Controller
     {
-        [Route("Pessoa/Index")]
+        [Route("Pessoa/Index/{textoPesquisa?}")]
         public ActionResult Index(string textoPesquisa)
         {
             if(textoPesquisa != null)
@@ -36,7 +36,8 @@ namespace Cadastro_Pessoa.Controllers
             {
                 var appPessoa = new PessoaAplicacao();
                 appPessoa.InserirPessoa(pessoa);
-                return Index(null);
+                string id = appPessoa.ListarUltimoInserido();
+                return Index(id);
             }
 
             return Inserir(pessoa);
